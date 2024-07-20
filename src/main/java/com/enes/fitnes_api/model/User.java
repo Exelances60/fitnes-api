@@ -53,6 +53,10 @@ public class User implements UserDetails {
         return password;
     }
 
+    public String getIdString() {
+        return id.toString();
+    }
+
     @Override
     public String getUsername() {
         return email;

@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.enes.fitnes_api.model.User;
+
 @Service
 public class JwtServices {
 
@@ -35,9 +37,11 @@ public class JwtServices {
     }
 
     public String generateToken(UserDetails userDetails) {
+        User user = (User) userDetails;
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities());
-        return generateToken(new HashMap<>(), userDetails);
+        claims.put("id", user.getId());
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
