@@ -27,7 +27,6 @@ public class UserServices {
 
     public ResponseUserDTO registerUser(RegisterDTO registerDto) {
         try {
-            System.out.println(registerDto);
             User user = new User();
             user.setEmail(registerDto.getEmail());
             user.setFullName(registerDto.getFullName());

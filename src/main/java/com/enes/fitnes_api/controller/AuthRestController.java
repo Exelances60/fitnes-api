@@ -9,6 +9,8 @@ import com.enes.fitnes_api.handler.GenericResponse;
 import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.services.UserServices;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,8 @@ public class AuthRestController {
     private UserServices userServices;
 
     @PostMapping("register")
-    public ResponseEntity<GenericResponse<ResponseUserDTO>> postMethodName(@RequestBody RegisterDTO registerDto) {
+    public ResponseEntity<GenericResponse<ResponseUserDTO>> postMethodName(
+            @Valid @RequestBody RegisterDTO registerDto) {
         return ResponseEntity
                 .ok(GenericResponse.<ResponseUserDTO>builder().success(true)
                         .data(userServices.registerUser(registerDto))
@@ -31,7 +34,7 @@ public class AuthRestController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<GenericResponse<String>> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<GenericResponse<String>> login(@Valid @RequestBody LoginDTO loginDto) {
         return ResponseEntity.ok(GenericResponse.<String>builder().success(true).data(userServices.login(loginDto))
                 .message("Login Succes").build());
     }
