@@ -2,36 +2,36 @@ package com.enes.fitnes_api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enes.fitnes_api.dto.LoginDto;
-import com.enes.fitnes_api.dto.RegisterDto;
+import com.enes.fitnes_api.dto.LoginDTO;
+import com.enes.fitnes_api.dto.RegisterDTO;
+import com.enes.fitnes_api.dto.ResponseUserDTO;
 import com.enes.fitnes_api.handler.GenericResponse;
 import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.services.UserServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class AuthRestController {
 
     @Autowired
     private UserServices userServices;
 
     @PostMapping("register")
-    public ResponseEntity<GenericResponse<User>> postMethodName(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<GenericResponse<ResponseUserDTO>> postMethodName(@RequestBody RegisterDTO registerDto) {
         return ResponseEntity
-                .ok(GenericResponse.<User>builder().success(true).data(userServices.registerUser(registerDto))
+                .ok(GenericResponse.<ResponseUserDTO>builder().success(true)
+                        .data(userServices.registerUser(registerDto))
                         .message("Account created Succes").build());
     }
 
     @PostMapping("login")
-    public ResponseEntity<GenericResponse<String>> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<GenericResponse<String>> login(@RequestBody LoginDTO loginDto) {
         return ResponseEntity.ok(GenericResponse.<String>builder().success(true).data(userServices.login(loginDto))
                 .message("Login Succes").build());
     }

@@ -5,8 +5,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.enes.fitnes_api.dto.LoginDto;
-import com.enes.fitnes_api.dto.RegisterDto;
+import com.enes.fitnes_api.dto.LoginDTO;
+import com.enes.fitnes_api.dto.RegisterDTO;
+import com.enes.fitnes_api.dto.ResponseUserDTO;
 import com.enes.fitnes_api.expectations.AllReadyExists;
 import com.enes.fitnes_api.expectations.NotFoundExpection;
 import com.enes.fitnes_api.model.User;
@@ -24,20 +25,21 @@ public class UserServices {
     @Autowired
     private JwtServices jwtServices;
 
-    public User registerUser(RegisterDto registerDto) {
+    public ResponseUserDTO registerUser(RegisterDTO registerDto) {
         try {
+            System.out.println(registerDto);
             User user = new User();
             user.setEmail(registerDto.getEmail());
             user.setFullName(registerDto.getFullName());
             user.setPassword(bCryptPasswordEncoder.encode(registerDto.getPassword()));
             User userFetched = userRepository.save(user);
-            return userFetched;
+            return new ResponseUserDTO(userFetched.getEmail(), userFetched.getFullName());
         } catch (Exception e) {
             throw new AllReadyExists("User Already Exists");
         }
     }
 
-    public String login(LoginDto loginDto) {
+    public String login(LoginDTO loginDto) {
         try {
             User user = userRepository.findByEmail(loginDto.getEmail())
                     .orElseThrow(() -> new NotFoundExpection("User Not Found"));

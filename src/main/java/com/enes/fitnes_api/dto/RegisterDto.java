@@ -3,7 +3,7 @@ package com.enes.fitnes_api.dto;
 import lombok.Data;
 
 @Data
-public class RegisterDto {
+public class RegisterDTO {
 
     private String fullName;
 
