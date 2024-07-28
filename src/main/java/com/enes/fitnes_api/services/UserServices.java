@@ -1,6 +1,7 @@
 package com.enes.fitnes_api.services;
 
 import com.enes.fitnes_api.expectations.NotFoundExpection;
+import com.enes.fitnes_api.mapper.UserConventor;
 import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.repositroy.UserRepository;
 import com.enes.fitnes_api.response.ResponseUserDetailsDTO;
@@ -13,9 +14,11 @@ public class UserServices {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserConventor userConventor;
 
     public ResponseUserDetailsDTO getUserDetails(Long id) {
-        User user= userRepository.findById(id).orElseThrow(()->new NotFoundExpection("Kullanıcı bulunamadı"));
-        return new ResponseUserDetailsDTO(user.getSocialMedia());
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExpection("Kullanıcı bulunamadı"));
+        return userConventor.convertToResponseUserDetailsDTO(user);
     }
 }

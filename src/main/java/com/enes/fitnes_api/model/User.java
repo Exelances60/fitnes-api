@@ -1,28 +1,26 @@
 package com.enes.fitnes_api.model;
 
 import java.sql.Date;
-import java.util.Collection;
+import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Data;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -45,7 +43,8 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-    private Set<SocialMediaAccount> socialMedia = new HashSet<>();
+    @JsonIgnore
+    private Set<SocialMediaAccount> socialMedia;
 
     @CreationTimestamp
     @Column(nullable = false, name = "created_at")

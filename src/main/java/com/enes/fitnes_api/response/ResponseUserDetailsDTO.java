@@ -1,16 +1,17 @@
 package com.enes.fitnes_api.response;
 
 import com.enes.fitnes_api.model.SocialMediaAccount;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseUserDetailsDTO {
-    private Set<SocialMediaAccount> socialMediaAccounts;
+    private Long id;
+    private String fullName;
+    private String email;
+    private Set<SocialMediaAccountDTO> socialMedia;
 }

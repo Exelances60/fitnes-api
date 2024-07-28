@@ -1,6 +1,7 @@
 package com.enes.fitnes_api.model;
 
 import com.enes.fitnes_api.enums.SocialMediaPlatform;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,8 +21,9 @@ public class SocialMediaAccount {
     @Column(nullable = false)
     private String accountLink;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
 }
