@@ -4,10 +4,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.enes.fitnes_api.dto.LoginDTO;
 import com.enes.fitnes_api.dto.RegisterDTO;
-import com.enes.fitnes_api.dto.ResponseUserDTO;
+import com.enes.fitnes_api.response.ResponseUserDTO;
 import com.enes.fitnes_api.handler.GenericResponse;
-import com.enes.fitnes_api.model.User;
-import com.enes.fitnes_api.services.UserServices;
+import com.enes.fitnes_api.services.AuthServices;
 
 import jakarta.validation.Valid;
 
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthRestController {
 
     @Autowired
-    private UserServices userServices;
+    private AuthServices userServices;
 
     @PostMapping("register")
     public ResponseEntity<GenericResponse<ResponseUserDTO>> postMethodName(

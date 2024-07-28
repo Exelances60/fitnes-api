@@ -1,4 +1,4 @@
-package com.enes.fitnes_api.dto;
+package com.enes.fitnes_api.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
