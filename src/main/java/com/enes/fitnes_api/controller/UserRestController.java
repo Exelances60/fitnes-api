@@ -21,4 +21,5 @@ public class UserRestController {
     public ResponseEntity<GenericResponse<ResponseUserDetailsDTO>> getUserInfo(@RequestParam Long id) {
         return ResponseEntity.ok(GenericResponse.<ResponseUserDetailsDTO>builder().success(true).data(userServices.getUserDetails(id)).message("User Info").build());
     }
+    
 }

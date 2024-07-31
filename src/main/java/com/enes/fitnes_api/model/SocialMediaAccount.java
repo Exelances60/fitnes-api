@@ -15,7 +15,7 @@ public class SocialMediaAccount {
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SocialMediaPlatform platform;
 
     @Column(nullable = false)
