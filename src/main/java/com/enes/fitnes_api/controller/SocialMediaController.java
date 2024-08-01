@@ -1,8 +1,14 @@
 package com.enes.fitnes_api.controller;
 
 
+import com.enes.fitnes_api.dto.SocialMediaReqDTO;
+import com.enes.fitnes_api.handler.GenericResponse;
+import com.enes.fitnes_api.model.SocialMediaAccount;
 import com.enes.fitnes_api.services.SocialMediaServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,5 +19,10 @@ public class SocialMediaController {
     @Autowired
     private SocialMediaServices socialMediaServices;
 
+    @PostMapping("/save")
+    public ResponseEntity<GenericResponse<String>> saveSocialMedia(@RequestBody SocialMediaReqDTO socialMedia) {
+        socialMediaServices.saveSocialMedia(socialMedia);
+        return ResponseEntity.ok(GenericResponse.<String>builder().success(true).data("Social media account saved successfully").message("Social media account saved successfully").build());
+    }
 
 }

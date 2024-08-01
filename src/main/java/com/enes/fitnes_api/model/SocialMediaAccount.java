@@ -21,7 +21,7 @@ public class SocialMediaAccount {
     @Column(nullable = false)
     private String accountLink;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
