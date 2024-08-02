@@ -34,9 +34,7 @@ public class SocialMediaServices {
                     } else {
                         socialMediaRepository.save(account);
                     }});
-
-
-        return "Social media account saved successfully";
+        return "Sosyal medya hesapları başarıyla kaydedildi";
     }
 
     private boolean hasUrl(String url) {
