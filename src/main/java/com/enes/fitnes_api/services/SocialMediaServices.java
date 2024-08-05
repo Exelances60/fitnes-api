@@ -49,4 +49,8 @@ public class SocialMediaServices {
         return socialMediaAccount;
     }
 
+    public String deleteSocialMedia(Long id) {
+        socialMediaRepository.deleteById(id);
+        return "Sosyal medya hesabı başarıyla silindi";
+    }
 }

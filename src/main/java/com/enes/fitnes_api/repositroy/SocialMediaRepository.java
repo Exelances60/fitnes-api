@@ -11,5 +11,5 @@ public interface SocialMediaRepository extends JpaRepository<SocialMediaAccount,
 
     SocialMediaAccount findByUserAndPlatform(User user, SocialMediaPlatform platform);
 
-    void deleteByUserAndPlatform(User user, SocialMediaPlatform platform);
+    void deleteByUserAndId(User user, Long id);
 }
