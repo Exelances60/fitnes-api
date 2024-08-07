@@ -42,6 +42,14 @@ public class User implements UserDetails {
     @NotBlank(message = "Sifre bos olamaz")
     private String password;
 
+    @Column()
+    private String job;
+
+    @Column()
+    @Length(min = 10, message = "Telefon numarasi en az 10 karakter olmali")
+    private String phone;
+
+
     @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<SocialMediaAccount> socialMedia;

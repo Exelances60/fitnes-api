@@ -3,7 +3,6 @@ package com.enes.fitnes_api.controller;
 
 import com.enes.fitnes_api.dto.SocialMediaReqDTO;
 import com.enes.fitnes_api.handler.GenericResponse;
-import com.enes.fitnes_api.model.SocialMediaAccount;
 import com.enes.fitnes_api.services.SocialMediaServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
