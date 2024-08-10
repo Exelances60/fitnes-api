@@ -10,8 +10,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseUserDetailsDTO {
+
+    private String image;
     private Long id;
     private String fullName;
     private String email;
+    private String job;
+    private String phone;
     private Set<SocialMediaAccountDTO> socialMedia;
 }

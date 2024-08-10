@@ -1,5 +1,6 @@
 package com.enes.fitnes_api.mapper;
 
+import com.enes.fitnes_api.dto.UpdateUserDTO;
 import com.enes.fitnes_api.model.SocialMediaAccount;
 import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.response.ResponseUserDetailsDTO;
