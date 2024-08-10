@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Long id;
 
-    @Column(name = "image")
+    @Column()
     private String image;
 
     @Column(nullable = false)

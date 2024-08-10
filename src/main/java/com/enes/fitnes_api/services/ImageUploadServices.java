@@ -1,25 +1,30 @@
 package com.enes.fitnes_api.services;
 
-import com.google.auth.Credentials;
-import com.google.auth.oauth2.GoogleCredentials;
+import com.enes.fitnes_api.services.interfaces.IImageUploadService;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.UUID;
 
 @Service
-public class ImageUploadServices {
+public class ImageUploadServices implements IImageUploadService {
+
+    private final Storage storage;
+
+    @Autowired
+    public ImageUploadServices(Storage storage) {
+        this.storage = storage;
+    }
 
     private File convertToFile(MultipartFile multipartFile, String fileName)  {
         File tempFile = new File(fileName);
@@ -32,12 +37,9 @@ public class ImageUploadServices {
         return tempFile;
     }
 
-    private String uploadFile(File file,String fileName) throws IOException {
+    private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("fitne-1e7ff.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        InputStream inputStream =  ImageUploadServices.class.getClassLoader().getResourceAsStream("fitne-1e7ff-firebase-adminsdk-rdlsj-90848e6da7.json");
-        Credentials credentials = GoogleCredentials.fromStream(inputStream);
-        Storage storage= StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
         String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/fitne-1e7ff.appspot.com/o/%s?alt=media";
@@ -62,4 +64,17 @@ public class ImageUploadServices {
         }
     }
 
+    public String delete(String fileUrl) throws IOException {
+        String filePath = extractFilePathFromUrl(fileUrl);
+        BlobId blobId = BlobId.of("fitne-1e7ff.appspot.com", filePath);
+        boolean deleted = storage.delete(blobId);
+        return deleted ? "Deleted" : "Error";
+    }
+
+    private String extractFilePathFromUrl(String fileUrl) {
+        return fileUrl.replace("https://firebasestorage.googleapis.com/v0/b/fitne-1e7ff.appspot.com/o/", "")
+                .replace("%2F", "/")
+                .replace("?alt=media", "")
+                .replaceAll("\\?", "");
+    }
 }
