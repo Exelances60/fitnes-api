@@ -4,6 +4,7 @@ import com.enes.fitnes_api.dto.UpdateUserDTO;
 import com.enes.fitnes_api.handler.GenericResponse;
 import com.enes.fitnes_api.response.ResponseUserDetailsDTO;
 import com.enes.fitnes_api.services.UserServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class UserRestController {
     }
 
     @PutMapping("/update-user")
-    public ResponseEntity<GenericResponse<ResponseUserDetailsDTO>> updateUserInfo(@RequestParam Long id, @ModelAttribute UpdateUserDTO updateUserDTO) {
+    public ResponseEntity<GenericResponse<ResponseUserDetailsDTO>> updateUserInfo(@RequestParam Long id, @Valid @ModelAttribute UpdateUserDTO updateUserDTO) {
         return ResponseEntity.ok(GenericResponse.<ResponseUserDetailsDTO>builder()
                 .success(true)
                 .data(userServices.updateUserDetails(id, updateUserDTO))

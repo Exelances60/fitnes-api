@@ -2,6 +2,7 @@ package com.enes.fitnes_api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -10,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class UpdateUserDTO {
-    
+
     private MultipartFile image;
 
     @NotBlank(message = "Email gerekli bir alandır")
@@ -23,5 +24,6 @@ public class UpdateUserDTO {
 
     private String job;
 
+    @Size(min = 10, max = 10, message = "Telefon numarası 10 haneli olmalıdır")
     private String phone;
 }
