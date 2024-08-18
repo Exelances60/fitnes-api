@@ -23,7 +23,6 @@ public class SocialMediaAccount {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
 }

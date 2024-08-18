@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -61,4 +62,6 @@ public class GlobalExpectionHandler {
                 .body(GenericResponse.builder().success(false).message("Validation Error").errors(errors).build());
 
     }
+
+
 }

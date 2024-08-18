@@ -1,0 +1,38 @@
+type Query {
+    userInfo(id: Int): User
+}
+
+type Mutation {
+    createPost(input: PostInput): String
+}
+
+
+
+input PostInput {
+    title:String
+    content:String
+}
+
+
+type Post {
+    id: Int
+    title: String
+    content: String
+}
+
+type User {
+    image: String
+    id: Int
+    fullName: String
+    email: String
+    phone: String
+    job: String
+    socialMedia: [SocialMedia]
+}
+
+type SocialMedia {
+    id: Int
+    platform: String
+    accountLink: String
+}
+
