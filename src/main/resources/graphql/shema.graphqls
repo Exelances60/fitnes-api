@@ -1,23 +1,36 @@
 type Query {
     userInfo(id: Int): User
+    getAllPosts: PostResponse
 }
 
 type Mutation {
     createPost(input: PostInput): String
 }
 
-
-
 input PostInput {
     title:String
     content:String
+    image:String
+    category: Int
 }
 
+type PostResponse implements BaseResponse {
+    message: String
+    success: Boolean
+    data: [Post]
+}
 
 type Post {
     id: Int
     title: String
     content: String
+    image: String
+    category: Category
+    author: User
+}
+type Category {
+    id: Int
+    name: String
 }
 
 type User {
@@ -36,3 +49,7 @@ type SocialMedia {
     accountLink: String
 }
 
+interface BaseResponse {
+    success: Boolean
+    message: String
+}

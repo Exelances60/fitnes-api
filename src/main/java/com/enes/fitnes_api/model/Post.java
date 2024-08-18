@@ -23,6 +23,13 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = true)
+    private String image;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id",nullable = true)
+    private Category category;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;

@@ -14,4 +14,6 @@ public class CreatePostDTO {
 
     @NotBlank(message = "İçerik boş olamaz.")
     private String content;
+
+    private String image;
 }

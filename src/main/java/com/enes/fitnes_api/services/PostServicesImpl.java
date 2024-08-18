@@ -9,6 +9,8 @@ import com.enes.fitnes_api.services.interfaces.PostServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServicesImpl implements PostServices {
 
@@ -27,9 +29,15 @@ public class PostServicesImpl implements PostServices {
         postRepository.save(Post.builder()
                 .title(createPostDTO.getTitle())
                 .content(createPostDTO.getContent())
+                .image(createPostDTO.getImage() != null ? createPostDTO.getImage() : null)
                 .author(user)
                 .build());
         return "Post saved successfully";
 
+    }
+
+    @Override
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 }
