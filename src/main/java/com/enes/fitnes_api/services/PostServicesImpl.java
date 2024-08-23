@@ -30,10 +30,10 @@ public class PostServicesImpl implements PostServices {
                 .title(createPostDTO.getTitle())
                 .content(createPostDTO.getContent())
                 .image(createPostDTO.getImage() != null ? createPostDTO.getImage() : null)
+                .categoryId(Long.valueOf(createPostDTO.getCategoryId()))
                 .author(user)
                 .build());
         return "Post saved successfully";
-
     }
 
     @Override
