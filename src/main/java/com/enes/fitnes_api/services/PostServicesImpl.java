@@ -11,12 +11,9 @@ import com.enes.fitnes_api.repositroy.PostRepository;
 import com.enes.fitnes_api.response.ResponseHomePostDTO;
 import com.enes.fitnes_api.services.interfaces.CategoryServices;
 import com.enes.fitnes_api.services.interfaces.PostServices;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,13 +61,17 @@ public class PostServicesImpl implements PostServices {
     @Override
     public ResponseHomePostDTO getHomePosts() {
         List<Category> categories = categoryServices.getAll();
-        List<Post> allPosts = postRepository.findAllByCategoryIdIn(categories.stream().map(Category::getId).collect(Collectors.toList()));
+        List<Post> allPosts = postRepository
+                .findAllByCategoryIdIn(categories.stream().map(Category::getId).collect(Collectors.toList()));
 
-        List<Post> postProgram = allPosts.stream().filter(post -> post.getCategoryId() == 1).collect(Collectors.toList());
+        List<Post> postProgram = allPosts.stream().filter(post -> post.getCategoryId() == 1)
+                .collect(Collectors.toList());
         List<Post> postDiets = allPosts.stream().filter(post -> post.getCategoryId() == 2).collect(Collectors.toList());
         List<Post> postFood = allPosts.stream().filter(post -> post.getCategoryId() == 3).collect(Collectors.toList());
-        List<Post> postScience = allPosts.stream().filter(post -> post.getCategoryId() == 4).collect(Collectors.toList());
-        List<Post> postSuggestions = allPosts.stream().filter(post -> post.getCategoryId() == 5 ).collect(Collectors.toList());
+        List<Post> postScience = allPosts.stream().filter(post -> post.getCategoryId() == 4)
+                .collect(Collectors.toList());
+        List<Post> postSuggestions = allPosts.stream().filter(post -> post.getCategoryId() == 5)
+                .collect(Collectors.toList());
 
         return ResponseHomePostDTO.builder()
                 .postProgram(postConvetor.convertToPostDTOList(postProgram))
@@ -83,8 +84,8 @@ public class PostServicesImpl implements PostServices {
 
     @Override
     public PostDTO getPostById(Integer id) {
-        return postConvetor.convertToPostDTO(postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new NotFoundExpection("Post Bulunamadı")));
+        return postConvetor.convertToPostDTO(
+                postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new NotFoundExpection("Post Bulunamadı")));
     }
-
 
 }
