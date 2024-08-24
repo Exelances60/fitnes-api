@@ -62,6 +62,14 @@ public class GlobalExpectionHandler {
                 .body(GenericResponse.builder().success(false).message("Validation Error").errors(errors).build());
 
     }
-
-
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<GenericResponse<Object>> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.status(Response.SC_BAD_REQUEST)
+                .body(GenericResponse.builder().success(false).message(e.getMessage()).build());
+    }
+    @ExceptionHandler({NumberFormatException.class})
+    public ResponseEntity<GenericResponse<Object>> handleNumberFormatException(NumberFormatException e) {
+        return ResponseEntity.status(Response.SC_BAD_REQUEST)
+                .body(GenericResponse.builder().success(false).message("Invalid id").build());
+    }
 }

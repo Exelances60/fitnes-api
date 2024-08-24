@@ -1,7 +1,7 @@
 package com.enes.fitnes_api.dto;
 
-import com.enes.fitnes_api.model.Category;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class CreatePostDTO {
 
     private String image;
 
-    @NotBlank(message = "Kategori boş olamaz.")
+    @NotNull(message = "Kategori boş olamaz.")
     private Integer categoryId;
 
 }

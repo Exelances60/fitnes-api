@@ -17,23 +17,28 @@ public class Post {
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String image;
 
-    @Column(name = "category_id", nullable = true, insertable = false, updatable = false)
-    private Long categoryId;
+    @Column(name = "category_id")
+    private Integer categoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private Category category;
 
+    @Column(name = "author_id", nullable = false)
+    private Long authorId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "author_id",insertable = false, updatable = false)
     private User author;
+
 }
+

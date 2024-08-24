@@ -4,6 +4,7 @@ import com.enes.fitnes_api.handler.GenericResponse;
 import com.enes.fitnes_api.model.Category;
 import com.enes.fitnes_api.services.interfaces.CategoryServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +19,11 @@ public class CategoryRestController {
     private CategoryServices categoryService;
 
     @GetMapping("/all")
-    public GenericResponse<List<Category>> getAll() {
+    public ResponseEntity<GenericResponse<List<Category>>> getAll() {
         try {
-            return GenericResponse.<List<Category>>builder().success(true).data(categoryService.getAll()).message("Categories fetched successfully").build();
+            return ResponseEntity.ok(GenericResponse.<List<Category>>builder().success(true).data(categoryService.getAll()).message("All categories fetched successfully").build());
         } catch (Exception e) {
-            return GenericResponse.<List<Category>>builder().success(false).data(null).message(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(GenericResponse.<List<Category>>builder().success(false).data(null).message(e.getMessage()).build());
         }
     }
 }

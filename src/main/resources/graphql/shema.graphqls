@@ -11,7 +11,7 @@ input PostInput {
     title:String
     content:String
     image:String
-    category: Int
+    categoryId: Int
 }
 
 type PostResponse implements BaseResponse {
