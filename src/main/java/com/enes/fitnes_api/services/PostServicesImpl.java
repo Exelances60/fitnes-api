@@ -35,6 +35,7 @@ public class PostServicesImpl implements PostServices {
     @Override
     public String createPost(CreatePostDTO createPostDTO) {
         User user = userService.getCurrentUser();
+        System.out.println(user.getFullName());
         if (user == null) {
             throw new NotFoundExpection("User not found");
         }
@@ -43,7 +44,7 @@ public class PostServicesImpl implements PostServices {
                 .content(createPostDTO.getContent())
                 .image(createPostDTO.getImage() != null ? createPostDTO.getImage() : null)
                 .categoryId(createPostDTO.getCategoryId())
-                .author(user)
+                .authorId(user.getId())
                 .build());
         return "Post saved successfully";
     }
