@@ -7,7 +7,6 @@ import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.repositroy.UserRepository;
 import com.enes.fitnes_api.response.ResponseUserDetailsDTO;
 import com.enes.fitnes_api.services.interfaces.IFirebaseServices;
-import com.enes.fitnes_api.services.interfaces.IImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
