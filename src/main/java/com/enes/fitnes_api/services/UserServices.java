@@ -6,6 +6,7 @@ import com.enes.fitnes_api.mapper.UserConventor;
 import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.repositroy.UserRepository;
 import com.enes.fitnes_api.response.ResponseUserDetailsDTO;
+import com.enes.fitnes_api.services.interfaces.IFirebaseServices;
 import com.enes.fitnes_api.services.interfaces.IImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,7 @@ public class UserServices {
     private UserConventor userConventor;
 
     @Autowired
-    private IImageUploadService imageUploadServices;
+    private IFirebaseServices firebaseServices;
 
     public ResponseUserDetailsDTO getUserDetails(Long id) {
        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExpection("Kullanıcı bulunamadı"));
@@ -69,9 +70,9 @@ public class UserServices {
                     userField.setAccessible(true);
                     if (dtoField.getName().equals("image") && value instanceof MultipartFile) {
                         if (user.getImage() != null && !user.getImage().isEmpty()) {
-                            imageUploadServices.delete(user.getImage());
+                            firebaseServices.delete(user.getImage());
                         }
-                        String imageUrl = imageUploadServices.upload((MultipartFile) value);
+                        String imageUrl = firebaseServices.upload((MultipartFile) value);
                         userField.set(user, imageUrl);
                     } else {
                         userField.set(user, value);

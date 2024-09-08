@@ -1,6 +1,6 @@
 package com.enes.fitnes_api.services;
 
-import com.enes.fitnes_api.services.interfaces.IImageUploadService;
+import com.enes.fitnes_api.services.interfaces.IFirebaseServices;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -17,12 +17,12 @@ import java.nio.file.Files;
 import java.util.UUID;
 
 @Service
-public class ImageUploadServices implements IImageUploadService {
+public class FirebaseServices implements IFirebaseServices {
 
     private final Storage storage;
 
     @Autowired
-    public ImageUploadServices(Storage storage) {
+    public FirebaseServices(Storage storage) {
         this.storage = storage;
     }
 
@@ -37,9 +37,9 @@ public class ImageUploadServices implements IImageUploadService {
         return tempFile;
     }
 
-    private String uploadFile(File file, String fileName) throws IOException {
+    private String uploadFile(File file, String fileName, String contentType) throws IOException {
         BlobId blobId = BlobId.of("fitne-1e7ff.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentType).build();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
         String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/fitne-1e7ff.appspot.com/o/%s?alt=media";
@@ -56,7 +56,7 @@ public class ImageUploadServices implements IImageUploadService {
             fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));
 
             File file = convertToFile(multipartFile, fileName);
-            String URL = uploadFile(file, fileName);
+            String URL = uploadFile(file, fileName,multipartFile.getContentType());
             file.delete();
             return URL;
         } catch (IOException e) {
