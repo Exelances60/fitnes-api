@@ -1,6 +1,5 @@
 package com.enes.fitnes_api.response;
 
-import com.enes.fitnes_api.model.SocialMediaAccount;
 import lombok.*;
 
 import java.util.Set;
@@ -12,6 +11,7 @@ import java.util.Set;
 public class ResponseUserDetailsDTO {
 
     private String image;
+    private String backgroundImage;
     private Long id;
     private String fullName;
     private String email;

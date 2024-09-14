@@ -58,6 +58,23 @@ public class UserServices {
         return userConventor.convertToResponseUserDetailsDTO(user);
     }
 
+    public ResponseUserDetailsDTO saveUserBackgroundImage(MultipartFile file) {
+       try {
+           User userContext = getCurrentUser();
+              User user = userRepository.findById(userContext.getId())
+                     .orElseThrow(() -> new NotFoundExpection("Kullanıcı bulunamadı"));
+           if (user.getBackgroundImage() != null && !user.getBackgroundImage().isEmpty()) {
+               firebaseServices.delete(user.getBackgroundImage());
+           }
+           String imageUrl = firebaseServices.upload(file);
+           user.setBackgroundImage(imageUrl);
+           userRepository.save(user);
+           return userConventor.convertToResponseUserDetailsDTO(user);
+       } catch (IOException e) {
+           throw new RuntimeException("Kullanıcı arka plan resmi yüklenirken hata oluştu", e);
+       }
+    }
+
     private void updateFields(Class<?> dtoClass, Class<?> userClass, UpdateUserDTO dto, User user)
             throws IllegalAccessException, IOException {
         for (Field dtoField : dtoClass.getDeclaredFields()) {

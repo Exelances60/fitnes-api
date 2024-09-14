@@ -31,6 +31,9 @@ public class User implements UserDetails {
     @Column()
     private String image;
 
+    @Column()
+    private String backgroundImage;
+
     @Column(nullable = false)
     @NotBlank(message = "Isim bos olamaz")
     @Length(min = 3, message = "Isim en az 3 karakter olmali")

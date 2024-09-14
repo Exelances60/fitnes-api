@@ -1,5 +1,6 @@
 package com.enes.fitnes_api.services;
 
+import com.enes.fitnes_api.repositroy.UserRepository;
 import com.enes.fitnes_api.services.interfaces.IFirebaseServices;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
@@ -20,6 +21,9 @@ import java.util.UUID;
 public class FirebaseServices implements IFirebaseServices {
 
     private final Storage storage;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public FirebaseServices(Storage storage) {
@@ -70,6 +74,7 @@ public class FirebaseServices implements IFirebaseServices {
         boolean deleted = storage.delete(blobId);
         return deleted ? "Deleted" : "Error";
     }
+
 
     private String extractFilePathFromUrl(String fileUrl) {
         return fileUrl.replace("https://firebasestorage.googleapis.com/v0/b/fitne-1e7ff.appspot.com/o/", "")
