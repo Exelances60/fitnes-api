@@ -35,5 +35,14 @@ public class UserRestController {
                 .build());
     }
 
+    @PostMapping("/follow/{followId}")
+    public ResponseEntity<GenericResponse<ResponseUserDetailsDTO>> followUser(@PathVariable String followId) {
+        return ResponseEntity.ok(GenericResponse.<ResponseUserDetailsDTO>builder()
+                .success(true)
+                .data(userServices.followUser(Long.valueOf(followId)))
+                .message("Kullanıcı takip edildi")
+                .build());
+    }
+
 }
     

@@ -6,38 +6,37 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
+
 @Entity
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "follow")
-public class Follow {
+@Table(name = "post_likes")
+public class PostLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
-    private Long followId;
+    @Column(name = "post_id", nullable = false)
+    private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "followId", insertable = false, updatable = false)
-    private User follow;
+    @JoinColumn(name = "post_id", insertable = false, updatable = false)
+    private Post post;
 
     @CreationTimestamp
-    @Column(name = "created_at")
-    private Date createdAt;
-
-    @CreationTimestamp
-    @Column(nullable = false, name = "followed_at")
-    private Date followedAt;
+    @Column(nullable = false, name = "liked_at")
+    private Date likedAt;
 }
+

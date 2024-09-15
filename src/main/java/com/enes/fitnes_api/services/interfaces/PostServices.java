@@ -17,4 +17,6 @@ public interface PostServices {
     ResponseHomePostDTO getHomePosts();
 
     PostDTO getPostById(Integer id);
+
+    PostDTO likePost(Integer id);
 }

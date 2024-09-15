@@ -3,7 +3,9 @@ package com.enes.fitnes_api.services;
 import com.enes.fitnes_api.dto.UpdateUserDTO;
 import com.enes.fitnes_api.expectations.NotFoundExpection;
 import com.enes.fitnes_api.mapper.UserConventor;
+import com.enes.fitnes_api.model.Follow;
 import com.enes.fitnes_api.model.User;
+import com.enes.fitnes_api.repositroy.FollowRepository;
 import com.enes.fitnes_api.repositroy.UserRepository;
 import com.enes.fitnes_api.response.ResponseUserDetailsDTO;
 import com.enes.fitnes_api.services.interfaces.IFirebaseServices;
@@ -28,8 +30,19 @@ public class UserServices {
     @Autowired
     private IFirebaseServices firebaseServices;
 
+    @Autowired
+    private FollowRepository followRepository;
+
     public ResponseUserDetailsDTO getUserDetails(Long id) {
        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExpection("Kullanıcı bulunamadı"));
+       user.setPostCount(user.getPosts().size());
+       user.setFollowerCount(followRepository.countByFollowId(id));
+       user.setFollowingCount(followRepository.countByUserId(id));
+       User currentUser = getCurrentUser();
+       if (currentUser != null && !currentUser.getId().equals(id)) {
+           Follow follow = followRepository.findByUserIdAndFollowId(currentUser.getId(), id);
+           user.setIsFollowed(follow != null);
+       }
        return userConventor.convertToResponseUserDetailsDTO(user);
     }
 
@@ -105,5 +118,25 @@ public class UserServices {
         } catch (NoSuchFieldException e) {
             throw new RuntimeException("Kullanıcı alanı bulunamadı: " + fieldName, e);
         }
+    }
+
+    public ResponseUserDetailsDTO followUser(Long followId) {
+        User user = userRepository.findById(getCurrentUser().getId())
+                .orElseThrow(() -> new NotFoundExpection("Kullanıcı bulunamadı"));
+        User followUser = userRepository.findById(followId)
+                .orElseThrow(() -> new NotFoundExpection("Takip edilecek kullanıcı bulunamadı"));
+        Follow follow = followRepository.findByUserIdAndFollowId(getCurrentUser().getId(), followId);
+        if (follow == null) {
+            Follow newFollow = Follow.builder().userId(getCurrentUser().getId()).followId(followUser.getId()).user(user).follow(followUser).build();
+            followRepository.save(newFollow);
+            followUser.setIsFollowed(true);
+        } else {
+            followRepository.delete(follow);
+            followUser.setIsFollowed(false);
+        }
+        userRepository.save(followUser);
+        followUser.setFollowerCount(followRepository.countByFollowId(followId));
+        followUser.setFollowingCount(followRepository.countByUserId(followId));
+        return userConventor.convertToResponseUserDetailsDTO(followUser);
     }
 }

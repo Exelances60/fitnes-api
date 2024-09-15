@@ -22,8 +22,10 @@ public class ResponseUserDetailsDTO {
     private Set<SocialMediaAccountDTO> socialMedia;
     private String summary;
     private String address;
-    private Set<Follow> followers;
-    private Set<Follow> followings;
+    private Integer postCount;
+    private Integer followingCount;
+    private Integer followerCount;
+    private Boolean isFollowed = false;
 
     private Date createdAt;
 }

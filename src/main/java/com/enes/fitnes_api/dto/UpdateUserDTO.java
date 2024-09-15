@@ -26,4 +26,8 @@ public class UpdateUserDTO {
 
     @Size(min = 10, max = 10, message = "Telefon numarası 10 haneli olmalıdır")
     private String phone;
+
+    private String address;
+
+    private String summary;
 }

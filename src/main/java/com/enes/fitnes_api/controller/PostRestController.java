@@ -37,4 +37,13 @@ public class PostRestController {
         return ResponseEntity.ok(GenericResponse.<PostDTO>builder().success(true).data(postServices.getPostById(postId)).message("Post fetched successfully").build());
     }
 
+    @PostMapping("/like/{postId}")
+    public ResponseEntity<GenericResponse<PostDTO>> likePost(@PathVariable String postId) {
+        int postIdInt = Integer.parseInt(postId);
+        if (postIdInt < 1) {
+            throw new IllegalArgumentException("Invalid id: must be greater than 0");
+        }
+        return ResponseEntity.ok(GenericResponse.<PostDTO>builder().success(true).data(postServices.likePost(postIdInt)).message("Post liked successfully").build());
+    }
+
 }

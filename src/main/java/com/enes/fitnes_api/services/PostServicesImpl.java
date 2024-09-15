@@ -6,7 +6,9 @@ import com.enes.fitnes_api.expectations.NotFoundExpection;
 import com.enes.fitnes_api.mapper.PostConvetor;
 import com.enes.fitnes_api.model.Category;
 import com.enes.fitnes_api.model.Post;
+import com.enes.fitnes_api.model.PostLike;
 import com.enes.fitnes_api.model.User;
+import com.enes.fitnes_api.repositroy.PostLikeRepository;
 import com.enes.fitnes_api.repositroy.PostRepository;
 import com.enes.fitnes_api.response.ResponseHomePostDTO;
 import com.enes.fitnes_api.services.interfaces.CategoryServices;
@@ -31,6 +33,9 @@ public class PostServicesImpl implements PostServices {
 
     @Autowired
     private PostConvetor postConvetor;
+
+    @Autowired
+    private PostLikeRepository postLikeRepository;
 
     @Override
     public String createPost(CreatePostDTO createPostDTO) {
@@ -85,8 +90,26 @@ public class PostServicesImpl implements PostServices {
 
     @Override
     public PostDTO getPostById(Integer id) {
-        return postConvetor.convertToPostDTO(
-                postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new NotFoundExpection("Post Bulunamadı")));
+        Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new NotFoundExpection("Post Bulunamadı"));
+        post.setLiked(postLikeRepository.findByUserIdAndPostId(userService.getCurrentUser().getId(), Long.valueOf(id)) != null);
+        return postConvetor.convertToPostDTO(post);
+    }
+
+    @Override
+    public PostDTO likePost(Integer id) {
+        User user = userService.getCurrentUser();
+        Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new NotFoundExpection("Post not found"));
+        PostLike postLike = postLikeRepository.findByUserIdAndPostId(user.getId(), Long.valueOf(id));
+        if (postLike != null) {
+            postLikeRepository.delete(postLike);
+            post.getLikes();
+            post.setLiked(false);
+            return postConvetor.convertToPostDTO(post);
+        }
+        postLikeRepository.save(PostLike.builder().postId(post.getId()).userId(user.getId()).build());
+        post.getLikes();
+        post.setLiked(true);
+        return postConvetor.convertToPostDTO(post);
     }
 
 }
