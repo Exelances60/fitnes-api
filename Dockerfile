@@ -1,13 +1,13 @@
-# the base image
-FROM amazoncorretto:22
+# 1. Maven kullanarak projeyi build et
+FROM maven:3.8.1-openjdk-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# the JAR file path
-ARG JAR_FILE=target/*.jar
+# 2. Uygulamanın JAR dosyasını kopyala ve yeni imajı oluştur
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar application.jar
 
-# Copy the JAR file from the build context into the Docker image
-COPY ${JAR_FILE} application.jar
-
-CMD apt-get update -y
-
-# Set the default command to run the Java application
-ENTRYPOINT ["java", "-Xmx2048M", "-jar", "/application.jar"]
+# 3. Uygulamayı başlat
+ENTRYPOINT ["java", "-jar", "application.jar"]
