@@ -1,7 +1,9 @@
 package com.enes.fitnes_api.response;
 
+import com.enes.fitnes_api.model.Follow;
 import lombok.*;
 
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -18,4 +20,10 @@ public class ResponseUserDetailsDTO {
     private String job;
     private String phone;
     private Set<SocialMediaAccountDTO> socialMedia;
+    private String summary;
+    private String address;
+    private Set<Follow> followers;
+    private Set<Follow> followings;
+
+    private Date createdAt;
 }

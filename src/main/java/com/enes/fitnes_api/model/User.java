@@ -55,6 +55,17 @@ public class User implements UserDetails {
     @Length(min = 10, message = "Telefon numarasi en az 10 karakter olmali")
     private String phone;
 
+    @Column()
+    private String address;
+
+    @Column()
+    private String summary;
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Follow> following = new HashSet<>();
+
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Follow> followers = new HashSet<>();
 
     @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     @JsonIgnore

@@ -17,6 +17,10 @@ public class UserRestController {
     @Autowired
     private UserServices userServices;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<GenericResponse<ResponseUserDetailsDTO>> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(GenericResponse.<ResponseUserDetailsDTO>builder().success(true).data(userServices.getUserDetails(id)).message("User Info").build());
+    }
     @GetMapping("/user-details")
     public ResponseEntity<GenericResponse<ResponseUserDetailsDTO>> getUserInfo(@RequestParam Long id) {
         return ResponseEntity.ok(GenericResponse.<ResponseUserDetailsDTO>builder().success(true).data(userServices.getUserDetails(id)).message("User Info").build());
@@ -30,5 +34,6 @@ public class UserRestController {
                 .message("Kullanıcı bilgileri güncellendi")
                 .build());
     }
+
 }
     
