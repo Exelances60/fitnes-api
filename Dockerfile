@@ -1,11 +1,11 @@
 # 1. Maven kullanarak projeyi build et
-FROM openjdk:21-jdk-alpine AS build
+FROM maven:3.8.1-openjdk-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
 # 2. Uygulamanın JAR dosyasını kopyala ve yeni imajı oluştur
-FROM openjdk:21-jdk-alpine
+FROM openjdk:17-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar application.jar
 
