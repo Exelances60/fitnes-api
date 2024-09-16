@@ -1,13 +1,11 @@
-# 1. Maven kullanarak projeyi build et
-FROM maven:3.8.1-openjdk-17 AS build
+FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean install
 
-# 2. Uygulamanın JAR dosyasını kopyala ve yeni imajı oluştur
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-alpine
 WORKDIR /app
-COPY --from=build /app/target/*.jar application.jar
-
-# 3. Uygulamayı başlat
-ENTRYPOINT ["java", "-jar", "application.jar"]
+COPY --from=build /app/target/fitnes-api-0.0.1-SNAPSHOT.jar ./fitnes-api-0.0.1-SNAPSHOT.jar
+EXPOSE 8080
+CMD ["java", "-jar", "aws-deployment.jar"]
