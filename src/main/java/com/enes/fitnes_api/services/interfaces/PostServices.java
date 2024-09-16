@@ -1,9 +1,11 @@
 package com.enes.fitnes_api.services.interfaces;
 
 import com.enes.fitnes_api.dto.CreatePostDTO;
+import com.enes.fitnes_api.dto.CriteriaRequest;
 import com.enes.fitnes_api.dto.PostDTO;
 import com.enes.fitnes_api.model.Post;
 import com.enes.fitnes_api.response.ResponseHomePostDTO;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -19,4 +21,6 @@ public interface PostServices {
     PostDTO getPostById(Integer id);
 
     PostDTO likePost(Integer id);
+
+    List<Post> getAllPostsByCriteria(CriteriaRequest criteriaRequest);
 }

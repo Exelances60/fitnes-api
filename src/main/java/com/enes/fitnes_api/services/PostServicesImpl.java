@@ -1,6 +1,8 @@
 package com.enes.fitnes_api.services;
 
 import com.enes.fitnes_api.dto.CreatePostDTO;
+import com.enes.fitnes_api.dto.CriteriaRequest;
+import com.enes.fitnes_api.dto.Criterion;
 import com.enes.fitnes_api.dto.PostDTO;
 import com.enes.fitnes_api.expectations.NotFoundExpection;
 import com.enes.fitnes_api.mapper.PostConvetor;
@@ -10,10 +12,14 @@ import com.enes.fitnes_api.model.PostLike;
 import com.enes.fitnes_api.model.User;
 import com.enes.fitnes_api.repositroy.PostLikeRepository;
 import com.enes.fitnes_api.repositroy.PostRepository;
+import com.enes.fitnes_api.repositroy.PostSpecification;
 import com.enes.fitnes_api.response.ResponseHomePostDTO;
 import com.enes.fitnes_api.services.interfaces.CategoryServices;
 import com.enes.fitnes_api.services.interfaces.PostServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -112,4 +118,21 @@ public class PostServicesImpl implements PostServices {
         return postConvetor.convertToPostDTO(post);
     }
 
+    @Override
+    public List<Post> getAllPostsByCriteria(CriteriaRequest criteriaRequest) {
+        Pageable pageable = PageRequest.of(criteriaRequest.getPage(), criteriaRequest.getSize());
+        var specification = getSpecificationFromRequest(criteriaRequest.getCriteria());
+        var posts = postRepository.findAll(specification, pageable);
+        return posts.getContent();
+    }
+
+    private Specification<Post> getSpecificationFromRequest(List<Criterion> criteria) {
+        Specification<Post> specification = Specification.where(null);
+
+        for (Criterion criterion : criteria) {
+            specification = specification.and(new PostSpecification(criterion));
+        }
+
+        return specification;
+    }
 }
