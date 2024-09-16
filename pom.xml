@@ -120,6 +120,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>fitnesapi</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
