@@ -48,9 +48,18 @@ public class PostRestController {
         return ResponseEntity.ok(GenericResponse.<PostDTO>builder().success(true).data(postServices.likePost(postIdInt)).message("Post liked successfully").build());
     }
 
-    @GetMapping("/all-posts")
-    public ResponseEntity<GenericResponse<List<Post>>> getAllPosts(@RequestBody @Valid CriteriaRequest criteriaRequest) {
-        return ResponseEntity.ok(GenericResponse.<List<Post>>builder().success(true).data(postServices.getAllPostsByCriteria(criteriaRequest)).message("Posts fetched successfully").build());
+    @PostMapping("/all-posts")
+    public ResponseEntity<GenericResponse<List<PostDTO>>> getAllPosts(@RequestBody @Valid CriteriaRequest criteriaRequest) {
+        return ResponseEntity.ok(GenericResponse.<List<PostDTO>>builder().success(true).data(postServices.getAllPostsByCriteria(criteriaRequest)).message("Posts fetched successfully").build());
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<GenericResponse<String>> deletePost(@PathVariable String postId) {
+        int postIdInt = Integer.parseInt(postId);
+        if (postIdInt < 1) {
+            throw new IllegalArgumentException("Invalid id: must be greater than 0");
+        }
+        return ResponseEntity.ok(GenericResponse.<String>builder().success(true).data(postServices.deletePost(postIdInt)).message("Post deleted successfully").build());
     }
 
 }

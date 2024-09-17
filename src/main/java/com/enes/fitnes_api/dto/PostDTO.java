@@ -3,6 +3,8 @@ package com.enes.fitnes_api.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 public class PostDTO {
@@ -14,4 +16,5 @@ public class PostDTO {
     private Integer likes;
     private boolean isLiked = false;
     private AuthorDTO author;
+    private Date createdAt;
 }

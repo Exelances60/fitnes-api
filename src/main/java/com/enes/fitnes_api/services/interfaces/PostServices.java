@@ -22,5 +22,7 @@ public interface PostServices {
 
     PostDTO likePost(Integer id);
 
-    List<Post> getAllPostsByCriteria(CriteriaRequest criteriaRequest);
+    List<PostDTO> getAllPostsByCriteria(CriteriaRequest criteriaRequest);
+
+    String deletePost(int postIdInt);
 }

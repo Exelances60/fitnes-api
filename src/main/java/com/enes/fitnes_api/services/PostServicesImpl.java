@@ -17,6 +17,7 @@ import com.enes.fitnes_api.response.ResponseHomePostDTO;
 import com.enes.fitnes_api.services.interfaces.CategoryServices;
 import com.enes.fitnes_api.services.interfaces.PostServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -118,21 +119,35 @@ public class PostServicesImpl implements PostServices {
         return postConvetor.convertToPostDTO(post);
     }
 
+        @Override
+        public List<PostDTO> getAllPostsByCriteria(CriteriaRequest criteriaRequest) {
+            Pageable pageable = PageRequest.of(criteriaRequest.getPage(), criteriaRequest.getSize());
+            var specification = getSpecificationFromRequest(criteriaRequest.getCriteria());
+            Page<Post> posts = postRepository.findAll(specification, pageable);
+            List<Post> postList = posts.getContent();
+            return postConvetor.convertToPostDTOList(postList.stream().map(post -> {
+                post.setLiked(postLikeRepository.findByUserIdAndPostId(userService.getCurrentUser().getId(), post.getId()) != null);
+                return post;
+            }).collect(Collectors.toList()));
+        }
+
     @Override
-    public List<Post> getAllPostsByCriteria(CriteriaRequest criteriaRequest) {
-        Pageable pageable = PageRequest.of(criteriaRequest.getPage(), criteriaRequest.getSize());
-        var specification = getSpecificationFromRequest(criteriaRequest.getCriteria());
-        var posts = postRepository.findAll(specification, pageable);
-        return posts.getContent();
+    public String deletePost(int postIdInt) {
+        User user = userService.getCurrentUser();
+        Post post = postRepository.findById(Long.valueOf(postIdInt)).orElseThrow(() -> new NotFoundExpection("Post not found"));
+        if (post.getAuthorId() != user.getId()) {
+            throw new NotFoundExpection("You are not authorized to delete this post");
+        }
+        postRepository.delete(post);
+        return "Post Başarıyla Silindi";
     }
 
     private Specification<Post> getSpecificationFromRequest(List<Criterion> criteria) {
-        Specification<Post> specification = Specification.where(null);
+            Specification<Post> specification = Specification.where(null);
 
-        for (Criterion criterion : criteria) {
-            specification = specification.and(new PostSpecification(criterion));
+            for (Criterion criterion : criteria) {
+                specification = specification.and(new PostSpecification(criterion));
+            }
+            return specification;
         }
-
-        return specification;
-    }
 }
