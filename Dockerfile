@@ -4,16 +4,17 @@ WORKDIR /app
 
 COPY . /app
 
-# Gerekli paketleri yükle (tar ve gzip)
+# Gerekli paketleri yükle
 RUN yum install -y tar gzip
 
-# Maven Wrapper'ı çalıştırılabilir yap
+# Maven Wrapper'a çalıştırma izni ver
 RUN chmod +x ./mvnw
 
-# Maven ile projeyi derle
+# Maven build işlemini çalıştır (JAR dosyasının /app/target içinde oluşmasını garanti eder)
 RUN ./mvnw clean package
 
-ARG JAR_FILE=target/*.jar
+# Doğru dizinden JAR dosyasını kopyala
+ARG JAR_FILE=/app/target/*.jar
 
 COPY ${JAR_FILE} application.jar
 
