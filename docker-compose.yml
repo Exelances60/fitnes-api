@@ -7,26 +7,12 @@ services:
     depends_on:
       - db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=123
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/dev_db
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=123
+      - POSTGRES_USER=qrmenu
+      - POSTGRES_PASSWORD=lOJ5RddOsSSVdX86oXFXkQEgv0DSZO5jlk6hFotlMSYRcaKOTCWqHg57CB0kbZwk
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://2.59.117.162:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=qrmenu
+      - SPRING_DATASOURCE_PASSWORD=lOJ5RddOsSSVdX86oXFXkQEgv0DSZO5jlk6hFotlMSYRcaKOTCWqHg57CB0kbZwk
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
-      - 8080:8080
-
-  db:
-    image: postgres:latest
-    container_name: db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=123
-      - POSTGRES_DB=dev_db
-    ports:
-      - 5432:5432
-    volumes:
-      - db-data:/var/lib/postgresql/data
-
-volumes:
-  db-data:
+      - '5050:5050'
+        

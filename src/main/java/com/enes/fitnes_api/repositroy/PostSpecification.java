@@ -1,6 +1,5 @@
 package com.enes.fitnes_api.repositroy;
 
-import com.enes.fitnes_api.dto.CriteriaRequest;
 import com.enes.fitnes_api.dto.Criterion;
 import com.enes.fitnes_api.model.Post;
 import jakarta.persistence.criteria.CriteriaBuilder;
