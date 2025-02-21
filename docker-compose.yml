@@ -4,8 +4,6 @@ services:
   app:
     build: .
     container_name: app
-    depends_on:
-      - db
     environment:
       - POSTGRES_USER=qrmenu
       - POSTGRES_PASSWORD=lOJ5RddOsSSVdX86oXFXkQEgv0DSZO5jlk6hFotlMSYRcaKOTCWqHg57CB0kbZwk
