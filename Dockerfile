@@ -10,11 +10,11 @@ RUN yum install -y tar gzip
 # Maven Wrapper'a çalıştırma izni ver
 RUN chmod +x ./mvnw
 
-# Maven build işlemini çalıştır (JAR dosyasının /app/target içinde oluşmasını garanti eder)
+# Maven ile projeyi derle
 RUN ./mvnw clean package
 
-# Doğru dizinden JAR dosyasını kopyala
-ARG JAR_FILE=/app/target/*.jar
+# Eğer .original dosyası varsa onu kullan
+ARG JAR_FILE=/app/target/fitnes-api-0.0.1-SNAPSHOT.jar.original
 
 COPY ${JAR_FILE} application.jar
 
