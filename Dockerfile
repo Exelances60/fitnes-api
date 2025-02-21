@@ -4,10 +4,13 @@ WORKDIR /app
 
 COPY . /app
 
-# Grant execution permission to the Maven wrapper
+# Gerekli paketleri yükle (tar ve gzip)
+RUN yum install -y tar gzip
+
+# Maven Wrapper'ı çalıştırılabilir yap
 RUN chmod +x ./mvnw
 
-# Run Maven build
+# Maven ile projeyi derle
 RUN ./mvnw clean package
 
 ARG JAR_FILE=target/*.jar
