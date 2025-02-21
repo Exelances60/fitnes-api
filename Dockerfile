@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY . /app
 
+# Grant execution permission to the Maven wrapper
+RUN chmod +x ./mvnw
+
+# Run Maven build
 RUN ./mvnw clean package
 
 ARG JAR_FILE=target/*.jar
